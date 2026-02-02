@@ -160,7 +160,7 @@ def process_images(src_dir, dest_dir, base_url):
                 orig_width, orig_height = 1000, 1000  # fallback
 
             # Generate a thumbnail for viewer previews
-            thumb = generate_thumbnail(img_file, img_out_dir, orig_width, orig_height)
+            generate_thumbnail(img_file, img_out_dir, orig_width, orig_height)
 
             # Fix the id in info.json
             info_json_path = img_out_dir / "info.json"
