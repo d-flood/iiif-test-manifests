@@ -1,0 +1,37 @@
+[project]
+name = "iiif-test-manifests"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "iiif-prezi3>=3.1.0",
+    "jinja2>=3.1.6",
+]
+
+[tool.poe.tasks]
+
+[tool.poe.tasks.serve]
+help = "Serve the built site using Python http.server"
+cmd = "uv run python -m http.server 8000 --directory _site"
+
+[tool.poe.tasks.docker-build]
+help = "Build the docker container"
+cmd = "docker buildx build -t iiif-builder ."
+
+[tool.poe.tasks.build]
+help = "Run the full build inside docker (images + site)"
+shell = "docker run --rm --user $(id -u):$(id -g) -v ${PWD}:/app -e PYTHONPATH=/app -e UV_CACHE_DIR=/tmp/uv-cache iiif-builder uv run python scripts/build.py --url http://localhost:8000"
+# deps = ["docker-build"]
+
+[tool.poe.tasks.build-images]
+help = "Process images only (requires docker/vips)"
+shell = "docker run --rm --user $(id -u):$(id -g) -v ${PWD}:/app -e PYTHONPATH=/app -e UV_CACHE_DIR=/tmp/uv-cache iiif-builder uv run python scripts/build_images.py --url http://localhost:8000"
+
+[tool.poe.tasks.build-site]
+help = "Generate manifests and index only (no image processing)"
+cmd = "uv run python scripts/build_site.py --url http://localhost:8000"
+
+[tool.poe.tasks.build-all]
+help = "Run images and site build in sequence"
+sequence = ["build-images", "build-site"]

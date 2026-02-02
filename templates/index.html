@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IIIF Test Manifests</title>
+    <style>
+        body { font-family: system-ui, sans-serif; max-width: 800px; margin: 0 auto; padding: 2rem; line-height: 1.5; }
+        h1 { border-bottom: 2px solid #eee; padding-bottom: 0.5rem; }
+        h2 { margin-top: 2rem; color: #444; }
+        ul { list-style: none; padding: 0; }
+        li { margin-bottom: 1.5rem; border: 1px solid #eee; padding: 1rem; border-radius: 4px; }
+        li:hover { background: #f9f9f9; }
+        .title { font-weight: bold; font-size: 1.1em; display: block; margin-bottom: 0.25rem; }
+        .summary { color: #666; font-size: 0.9em; margin-bottom: 0.5rem; display: block; }
+        .links a { margin-right: 1rem; text-decoration: none; color: #0066cc; }
+        .links a:hover { text-decoration: underline; }
+        code { background: #eee; padding: 0.2em 0.4em; border-radius: 3px; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <h1>IIIF Test Manifests</h1>
+    <p>A collection of IIIF Presentation API 3.0 manifests for testing purposes. These manifests cover various viewing directions, behaviors, and features.</p>
+
+    {% for category, items in categories.items()|sort %}
+    <h2>{{ category|title if category else "Root" }}</h2>
+    <ul>
+        {% for item in items|sort(attribute='label') %}
+        <li>
+            <span class="title">{{ item.label }}</span>
+            <span class="summary">{{ item.summary }}</span>
+            <div class="links">
+                <a href="{{ item.path }}">JSON</a>
+                <a href="viewer.html?manifest={{ BASE_URL }}/{{ item.path }}" target="_blank">Mirador</a>
+                <a href="triiiceratops.html?manifest={{ BASE_URL }}/{{ item.path }}" target="_blank">Triiiceratops</a>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+    {% endfor %}
+
+    <footer>
+        <a href="https://github.com/d-flood/iiif-test-manifests">GitHub Repository</a>
+    </footer>
+</body>
+</html>

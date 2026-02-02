@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Triiiceratops Viewer</title>
+    <script src="https://unpkg.com/triiiceratops/dist/triiiceratops-element.iife.js"></script>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+        }
+        triiiceratops-viewer {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <triiiceratops-viewer id="viewer" style="display: block; width: 100%; height: 100%;" theme="cupcake"></triiiceratops-viewer>
+    <script>
+        // Get manifest URL from query parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const manifestUrl = urlParams.get('manifest') || urlParams.get('iiif-content');
+
+        const viewer = document.getElementById('viewer');
+
+        if (manifestUrl) {
+            viewer.manifestId = manifestUrl;
+        } else {
+            viewer.innerHTML = '<div style="padding: 20px;">No manifest specified. Use ?manifest=URL or ?iiif-content=URL</div>';
+        }
+    </script>
+</body>
+</html>

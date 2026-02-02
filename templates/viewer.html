@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Mirador Viewer</title>
+    <style>
+        #mirador {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        body { margin: 0; }
+    </style>
+</head>
+<body>
+    <div id="mirador"></div>
+    <script src="https://unpkg.com/mirador@latest/dist/mirador.min.js"></script>
+    <script>
+        // Get manifest URL from query parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const manifestUrl = urlParams.get('manifest');
+
+        if (manifestUrl) {
+            Mirador.viewer({
+                "id": "mirador",
+                "windows": [
+                    {
+                        "manifestId": manifestUrl,
+                        "view": "single"
+                    }
+                ],
+                "window": {
+                    "allowClose": false,
+                    "allowMaximize": false,
+                    "defaultSideBarPanel": 'info',
+                    "sideBarOpenByDefault": true,
+                },
+                "workspace": {
+                    "type": "mosaic"
+                }
+            });
+        } else {
+            document.getElementById('mirador').innerHTML = '<div style="padding: 20px;">No manifest specified. Use ?manifest=URL</div>';
+        }
+    </script>
+</body>
+</html>
